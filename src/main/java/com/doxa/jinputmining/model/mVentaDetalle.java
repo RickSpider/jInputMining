@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table (name = "VentasDetalles")
-public class mVentaDetalle implements Serializable{
+public class mVentaDetalle{
     
     @Id
     private long ventaid;

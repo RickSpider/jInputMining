@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "productos")
-public class mProducto implements Serializable{
+public class mProducto{
     
     @Id
     private long productoid;
