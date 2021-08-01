@@ -8,6 +8,10 @@ package com.doxa.jinputmining.vista;
 import javax.swing.JOptionPane;
 import com.doxa.jinputmining.controller.GenerarInsert;
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  *
@@ -25,6 +29,7 @@ public class Insert extends javax.swing.JPanel {
         initComponents();
         this.ruta = ruta;
         this.ta_Sql.setLineWrap(true);
+        this.ta_Sql.setEditable(false);
       
         for (String x : tablas) {
 
@@ -32,6 +37,27 @@ public class Insert extends javax.swing.JPanel {
 
         }
     }
+    
+    private void leerSQL(String name){
+    
+        StringBuilder sb = new StringBuilder();
+
+         String path  = System.getProperty("user.dir").toString()+"\\sql\\"+name;
+        
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(path))) {
+
+            // read line by line
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
+        }
+        
+        this.ta_Sql.setText(sb.toString());
+    } 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,6 +82,12 @@ public class Insert extends javax.swing.JPanel {
         btn_Ejecutar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_EjecutarActionPerformed(evt);
+            }
+        });
+
+        cb_tablas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cb_tablasItemStateChanged(evt);
             }
         });
 
@@ -128,12 +160,74 @@ public class Insert extends javax.swing.JPanel {
 
                 break;
             }
+            
+                case "Producto": {
+
+                gi.generarInsertProducto();
+
+                break;
+            }
+            
+            case "Venta": {
+
+                 this.leerSQL("venta.sql");
+
+                break;
+            }
+            
+            case "VentaDet": {
+
+                 this.leerSQL("ventaDetalle.sql");
+
+                break;
+            }
 
         }
 
         // System.out.println(this.cb_tablas.getSelectedItem().toString());
 
     }//GEN-LAST:event_btn_EjecutarActionPerformed
+
+    private void cb_tablasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cb_tablasItemStateChanged
+        // TODO add your handling code here:
+        
+         String ItemSelect = this.cb_tablas.getSelectedItem().toString();
+
+
+        switch (ItemSelect) {
+
+            case "Familia": {
+
+                 this.leerSQL("familia.sql");
+
+                break;
+            }
+            
+            case "Producto": {
+
+                 this.leerSQL("producto.sql");
+
+                break;
+            }
+            
+            case "Venta": {
+
+                 this.leerSQL("venta.sql");
+
+                break;
+            }
+            
+            case "VentaDet": {
+
+                 this.leerSQL("ventaDetalle.sql");
+
+                break;
+            }
+
+        }
+
+        
+    }//GEN-LAST:event_cb_tablasItemStateChanged
 
     public String getRuta() {
         return ruta;

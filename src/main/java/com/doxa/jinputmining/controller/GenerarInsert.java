@@ -6,6 +6,7 @@
 package com.doxa.jinputmining.controller;
 
 import com.doxa.jinputmining.model.mFamilia;
+import com.doxa.jinputmining.model.mProducto;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -80,6 +81,48 @@ public class GenerarInsert  {
         entityManager.getTransaction().commit();
         
         ruta += "\\InsertFamilia"+ new SimpleDateFormat("dd-MM-yyyy_hh-mm-ss").format(new Date()) + ".txt";
+
+        //content.append("hola wei");
+        FileOutput fo = new FileOutput(ruta, sbContent.toString());
+        fo.generarArchivo();
+        
+        
+    }
+    
+     public void generarInsertProducto(){
+    
+        StringBuffer sbContent = new StringBuffer();
+
+        EntityManager entityManager = dbUtil.getEntityManagerFactory().createEntityManager();
+        entityManager.getTransaction().begin();
+        
+        List<mFamilia> lmcats = entityManager.createNativeQuery(sql, mFamilia.class).getResultList();
+
+       List<mProducto> articulos = entityManager.createNativeQuery(sql, mProducto.class).getResultList();
+
+        if (articulos != null) {
+
+            for (mProducto art : articulos) {
+
+                /* System.out.println(art.toString());
+                entityManagerTesis.getTransaction().begin();
+
+               // entityManagerTesis.merge(art);
+                entityManagerTesis.persist(art);
+
+                entityManagerTesis.getTransaction().commit();*/
+                String descripcionext = art.getDescripcionext().replaceAll("'", "''");
+
+                String s = "Insert into productos (productoid, familiaid, producto, descripcionext, vprecio, stock, costo) values ( "
+                        + art.getProductoid() + ", " + art.getFamiliaid() + ", '" + art.getProducto() + "', '" + descripcionext + "', " + art.getVprecio() + ", " + art.getStock() +", "+art.getCosto() +" );\n";
+                sbContent.append(s);
+
+            }
+        }
+
+        entityManager.getTransaction().commit();
+        
+        ruta += "\\InsertProducto"+ new SimpleDateFormat("dd-MM-yyyy_hh-mm-ss").format(new Date()) + ".txt";
 
         //content.append("hola wei");
         FileOutput fo = new FileOutput(ruta, sbContent.toString());

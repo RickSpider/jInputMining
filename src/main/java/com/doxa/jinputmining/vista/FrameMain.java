@@ -5,7 +5,13 @@
  */
 package com.doxa.jinputmining.vista;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import org.ini4j.Wini;
 
 
 /**
@@ -21,6 +27,7 @@ public class FrameMain extends javax.swing.JFrame {
     private CalcularIr ci;
     private DataSetFpGrwth dsfpg;
     private Insert ins;
+    private Wini ini;
     
     public FrameMain() {
         initComponents();
@@ -32,11 +39,13 @@ public class FrameMain extends javax.swing.JFrame {
         this.jTabPane.add("FpGrowth",dsfpg);
         this.jTabPane.add("inserts",ins);
         this.tfExaminar.setEditable(false);
-        
-        System.out.println(getClass().getProtectionDomain().getCodeSource().getLocation());
-              
-        
-        
+        try {
+            this.ini = new Wini(new File(System.getProperty("user.dir")+"\\config.ini"));
+            String path = ini.get("FileOutput","path");
+            this.tfExaminar.setText(path);
+        } catch (IOException ex) {
+            Logger.getLogger(FrameMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -110,7 +119,7 @@ public class FrameMain extends javax.swing.JFrame {
                     .addComponent(tfExaminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExaminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                .addComponent(jTabPane, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -126,6 +135,13 @@ public class FrameMain extends javax.swing.JFrame {
         if(jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION ){
         
              this.tfExaminar.setText(jfc.getSelectedFile().getAbsolutePath());
+            
+            try {
+                ini.put("FileOutput","path",this.tfExaminar.getText());
+                ini.store();
+            } catch (IOException ex) {
+                Logger.getLogger(FrameMain.class.getName()).log(Level.SEVERE, null, ex);
+            }
              this.ci.setRuta(this.tfExaminar.getText());
              this.dsfpg.setRuta(this.tfExaminar.getText());
              this.ins.setRuta(this.tfExaminar.getText());
@@ -161,21 +177,7 @@ public class FrameMain extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FrameMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+     
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
