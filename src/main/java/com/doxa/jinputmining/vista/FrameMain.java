@@ -37,7 +37,7 @@ public class FrameMain extends javax.swing.JFrame {
         this.ins = new Insert(this.tfExaminar.getText());
         this.jTabPane.add("Calcular IR",ci);
         this.jTabPane.add("FpGrowth",dsfpg);
-        this.jTabPane.add("inserts",ins);
+        this.jTabPane.add("Inserts",ins);
         this.tfExaminar.setEditable(false);
         try {
             this.ini = new Wini(new File(System.getProperty("user.dir")+"\\config.ini"));

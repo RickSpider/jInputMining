@@ -23,7 +23,7 @@ public class Insert extends javax.swing.JPanel {
      * Creates new form Inserts
      */
     private String ruta;
-    private String[] tablas = {"Familia", "Producto", "Venta", "VentaDet"};
+    private String[] tablas = {"Familia", "Proveedor","Producto", "ProductosProveedor","Venta", "VentaDet","Compra","CompraDet"};
 
     public Insert(String ruta) {
         initComponents();
